@@ -1,0 +1,728 @@
+<html>
+    <head>
+        <title>
+            Calculator
+        </title>
+    </head>
+    <body style="background-color: white">
+        <p style="text-align: center; font-size: 30px; font-family: Arial; color: Blue">
+            Calculator
+        </p>
+		<p style="text-align: center; font-family: Arial; color: Gray">By: Prathamesh Kotgire</p>
+        <br>
+        <br>
+        <table align= "center" border="3px">
+            <thead>
+            <tr><th colspan="4" align = "right" style="font-size: 30;" id="calcnum" height="50px" width="210px">0</th></tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+						<button id="clear" style="background-color: lightgreen; height:50px; width: 50px"><b>AC</b></button>
+                    </td>
+                    <td>
+                        <button id="sign" style="background-color: lightgreen; height:50px; width: 50px"><b>+/-</b></button>
+                    </td>
+                    <td>
+                        <button id="percent" style="background-color: lightgreen; height:50px; width: 50px"><b>%</b></button>
+                    </td>
+                    <td>
+						<button id="divide" style="background-color: orange; height:50px; width: 50px"><b>/</b></button>
+                    </td>
+				</tr>
+                <tr>
+                    <td>
+						<button id="seven" style="background-color: lightblue; height:50px; width: 50px"><b>7</b></button>
+                    </td>
+                    <td>
+                        <button id="eight" style="background-color: lightblue; height:50px; width: 50px"><b>8</b></button>
+                    </td>
+                    <td>
+                        <button id="nine" style="background-color: lightblue; height:50px; width: 50px"><b>9</b></button>
+                    </td>
+                    <td>
+						<button id="times" style="background-color: orange; height:50px; width: 50px"><b>X</b></button>
+                    </td>
+				</tr>
+                <tr>
+                    <td>
+						<button id="four" style="background-color: lightblue; height:50px; width: 50px"><b>4</b></button>
+                    </td>
+                    <td>
+                        <button id="five" style="background-color: lightblue; height:50px; width: 50px"><b>5</b></button>
+                    </td>
+                    <td>
+                        <button id="six" style="background-color: lightblue; height:50px; width: 50px"><b>6</b></button>
+                    </td>
+                    <td>
+						<button id="minus" style="background-color: orange; height:50px; width: 50px"><b>-<b></button>
+                    </td>
+				</tr>
+                <tr>
+                    <td>
+						<button id="one" style="background-color: lightblue; height:50px; width: 50px"><b>1</b></button>
+                    </td>
+                    <td>
+                        <button id="two" style="background-color: lightblue; height:50px; width: 50px"><b>2</b></button>
+                    </td>
+                    <td>
+                        <button id="three" style="background-color: lightblue; height:50px; width: 50px"><b>3</b></button>
+                    </td>
+                    <td>
+						<button id="plus" style="background-color: orange; height:50px; width: 50px"><b>+</b></button>
+                    </td>
+				</tr>
+                <tr>
+                    <td colspan="2">
+						<button id="zero" style="background-color: lightblue; height:50px; width: 110px"><b>0</b></button>
+                    </td>
+                    <td>
+                        <button id="decimal" style="background-color: lightblue; height:50px; width: 50px"><b>.</b></button>
+                    </td>
+                    <td>
+						<button id="equals" style="background-color: orange; height:50px; width: 50px"><b>=</b></button>
+                    </td>
+				</tr>
+            </tbody>
+        </table>
+        <script>
+		var total = 0;
+		var tempnum = 0;
+		var operation = "none";
+		var input = "zero";
+		var decimal = false;
+		var decimalpoint = false;
+		var update_tempnum = function(){
+			var e = document.getElementById("calcnum");
+			e.innerHTML = tempnum;
+		};
+		var update_total = function(){
+			var e = document.getElementById("calcnum");
+			e.innerHTML = total;
+		};
+		var overflow = function(){
+			if (decimal === true){
+				var e = document.getElementById("calcnum");			
+				total = parseFloat(total.toFixed(13));
+				e.innerHTML = total;
+				tempnum = 0;
+				input = "zero"
+				operation = "none"
+				decimal = false;
+				decimalpoint = false;
+			} else {
+				var e = document.getElementById("calcnum");
+				e.innerHTML = "Overflow"
+				total = 0;
+				tempnum = 0;
+				input = "zero"
+				operation = "none"
+				decimalpoint = false
+			}
+		};
+		document.getElementById("clear").onclick = function() {
+			total = 0;
+			tempnum = 0;
+			input = "zero";
+			operation = "none";
+			update_total();
+			decimalpoint = false;
+		};
+		document.getElementById("plus").onclick = function() {
+			if (operation === "none"){
+				decimalpoint = false;
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				if(total.toString().length > 14){
+					overflow();
+				} else {
+					input = "zero";
+					operation = "add";
+					update_total();
+				}
+			}
+			else if (operation === "void"){
+				decimalpoint = false;
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				if(total.toString().length > 14){
+					overflow();
+				} else {
+					input = "zero";
+					operation = "add";
+					update_total();
+				}
+			}
+			else if (operation === "add"){
+				decimalpoint = false;
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				if(total.toString().length > 14){
+					overflow();
+				} else {
+					input = "zero";
+					operation = "add";
+					update_total();
+				}
+			}
+			else if (operation === "subtract"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total -= parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "add"
+				update_total();
+				}
+			}
+			else if (operation === "multiply") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total * parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "add"
+				update_total();
+				}	
+			}
+			else if (operation === "divide") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total / parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "add"
+				update_total();
+				}	
+			}
+		};
+		document.getElementById("minus").onclick = function() {
+			if (operation === "none") {
+				decimalpoint = false;
+				total = parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero";
+				operation = "subtract"
+			}
+			else if (operation === "void"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total -= parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "subtract"
+				update_total();
+				}	
+			}
+			else if (operation === "add"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "subtract"
+				update_total();
+				}
+			}
+			else if (operation === "subtract") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total -= parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "subtract"
+				update_total();
+				}	
+			}
+			else if (operation === "multiply") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total * parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "subtract"
+				update_total();
+				}	
+			}
+			else if (operation === "divide") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total / parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "subtract"
+				update_total();
+				}	
+			}
+		};
+		document.getElementById("times").onclick = function() {
+			if (operation === "none") {
+				decimalpoint = false;
+				total = parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero";
+				operation = "multiply"
+			}
+			else if(operation === "void"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+					operation = "multiply"
+				}
+			}
+			else if (operation === "multiply") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total * parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "multiply"
+				update_total();
+				}	
+			}
+			else if (operation === "add"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "multiply"
+				update_total();
+				}
+			}
+			else if (operation === "subtract") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total -= parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "multiply"
+				update_total();
+				}	
+			}
+			else if (operation === "divide") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total / parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "multiply"
+				update_total();
+				}	
+			}
+		};
+		document.getElementById("divide").onclick = function() {
+			if (operation === "none") {
+				decimalpoint = false;
+				total = parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero";
+				operation = "divide"
+			}
+			else if(operation === "void"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				operation = "divide"
+				}
+			}
+			else if (operation === "multiply") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total = (total * parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "divide"
+				update_total();
+				}	
+			}
+			else if (operation === "add"){
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total += parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "divide"
+				update_total();
+				}
+			}
+			else if (operation === "subtract") {
+				decimalpoint = false;
+				if(total.toString().length > 14) {
+					overflow();
+				} else {
+				total -= parseFloat(tempnum);
+				tempnum = 0;
+				input = "zero"
+				operation = "divide"
+				update_total();
+				}	
+			}
+			else if (operation === "divide") {
+				decimalpoint = false;
+				total = (total / parseFloat(tempnum));
+				if(total.toString().length > 14) {
+					decimal = true;
+					overflow();
+				} else {
+				total = (total / parseFloat(tempnum));
+				tempnum = 0;
+				input = "zero"
+				operation = "divide"
+				update_total();
+				}	
+			}
+		};
+		document.getElementById("equals").onclick = function() {
+			switch(operation){
+				case 'add':
+					total += parseFloat(tempnum);
+					tempnum = 0;
+					input = "zero";
+					decimalpoint = false;
+					if(total.toString().length > 14){
+						overflow();
+					} else {
+						operation = "void";
+						update_total();
+					}
+					break;
+				case 'subtract':
+					total -= parseFloat(tempnum);
+					tempnum = 0;
+					input = "zero"
+					decimalpoint = false;
+					if(total.toString().length > 14){
+						overflow();
+					} else {
+						update_total();
+						operation = "void";
+					}
+					break;
+				case 'multiply':
+					total = (total * parseFloat(tempnum));
+					tempnum = 0;
+					input = "zero"
+					decimalpoint = false;
+					if(total.toString().length > 14){
+						overflow();
+					} else {
+						operation = "void";
+						update_total();
+					}
+					break;
+				case 'divide':
+					total = (total / parseFloat(tempnum));
+					tempnum = 0;
+					input = "zero"
+					decimalpoint = false;
+					if(total.toString().length > 14){
+						decimal = true;
+						overflow();
+					} else {
+						operation = "void";
+						update_total();
+					}
+					break;
+			}
+		};
+		document.getElementById("sign").onclick = function() {
+			if (operation === "void"){			
+				total = (total * -1);
+				update_total();
+			}
+			else {
+				tempnum = (tempnum * -1);
+				update_tempnum();
+			}
+			}
+		document.getElementById("percent").onclick = function() {
+			if (operation === "void") {
+				total = (total / 100);
+				update_total();
+			}
+			else {
+				tempnum = (parseFloat(tempnum) / 100);
+				if(tempnum.toString().length > 14) {
+					decimal = true;
+					overflow();
+				} else {
+				update_tempnum();
+				}
+			}
+		};
+		document.getElementById("decimal").onclick = function() {
+		if(decimalpoint === false) {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+				decimalpoint = true;
+			}
+			if(input === "zero"){
+				tempnum = "0.";
+				update_tempnum();
+				input = "number";
+				decimalpoint = true;
+			} else {
+				tempnum = tempnum + ".";
+				update_tempnum();
+				input = "number";
+				decimalpoint = true;
+			}
+		}
+		}
+		};
+		document.getElementById("one").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "1";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "1";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("two").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "2";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "2";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("three").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "3";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "3";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("four").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "4";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "4";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("five").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "5";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "5";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("six").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "6";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "6";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("seven").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "7";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "7";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("eight").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "8";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "8";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("nine").onclick = function() {
+		if (tempnum.length === 14){
+			tempnum = tempnum;
+			update_tempnum();
+			} else {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "9";
+				update_tempnum();
+				input = "number";
+			} else {
+				tempnum = tempnum + "9";
+				update_tempnum();
+				input = "number";
+			}
+		}
+		};
+		document.getElementById("zero").onclick = function() {
+			if(operation === "void"){
+				total = 0;
+				tempnum = 0;
+				input = "zero";
+				operation = "none";
+			}
+			if(input === "zero"){
+				tempnum = "0";
+				update_tempnum();
+				input = "zero";
+			} else {
+				tempnum = tempnum + "0";
+				update_tempnum();
+				input = "number";
+			}
+		};
+		</script>
+    </body>
+</html>
